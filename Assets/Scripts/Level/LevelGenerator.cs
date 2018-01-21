@@ -61,7 +61,7 @@ public class LevelGenerator : MonoBehaviour
 	private Vector3 WallOffset(bool isLeft)
 	{
 		var xSign = isLeft ? -1 : 1; 
-		return new Vector3(xSign * (numberOfLanes /2 * laneSize + WallWidth/2 +  numberOfLanes % 2 * laneSize) , wallHeight * laneSize / 2, (pathLength/2 - 1) * laneSize); 
+		return new Vector3(xSign * (numberOfLanes /2 * laneSize + WallWidth/2 +  numberOfLanes % 2 * laneSize/2) , wallHeight * laneSize / 2, (pathLength/2 - 1) * laneSize); 
 	}
 	
 	private Vector3 FloorOffset()

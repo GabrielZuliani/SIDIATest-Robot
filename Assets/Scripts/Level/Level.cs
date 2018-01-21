@@ -11,6 +11,8 @@ public class Level : MonoBehaviour
 	// save robotMovement to have access to robot speed
 	private RobotMovement robotMov;
 	private Transform levelGeometry;
+	private List<int> availableLastLanes = new List<int>();
+	private float distance;
 
 	public event Action OnGameOver;
 
@@ -42,7 +44,7 @@ public class Level : MonoBehaviour
 		levelGeometry.position -= Vector3.forward * levelGenerator.LaneSize;
 		initialPosition = levelGeometry.position;  
   
-		var robot = RobotFactory.GetRobot (RobotType.Robot1);
+		var robot = RobotFactory.GetRobot (RobotChangeManager.CurrentType);
 		robotMov = robot.GetComponent<RobotMovement> ();
 		Debug.Assert (robotMov != null, "Robot Prefab has no Robot Movement Component");
 		robotMov.Init (this);
@@ -55,14 +57,39 @@ public class Level : MonoBehaviour
 		if (hudController != null)
 			hudController.Init (robot);
 
+		FillAvailableLastLanes ();
     }
+
+	private void FillAvailableLastLanes()
+	{
+		availableLastLanes.Clear ();
+		for (int i = 0; i < levelGenerator.NumberOfLanes; i++)
+			availableLastLanes.Add (i);
+	}
 		
     private void Update()
     {
 		levelGeometry.position -= Vector3.forward * robotMov.CurrentSpeed * Time.deltaTime;
 		if (Vector3.Distance(levelGeometry.position, initialPosition) > levelGenerator.LaneSize * levelGenerator.PathLength - levelGenerator.PortalDistance)
 			levelGeometry.position = initialPosition;
+
+		distance += robotMov.CurrentSpeed * Time.deltaTime;
+		if (distance > levelGenerator.LaneSize)
+		{
+			distance = 0;
+			FillAvailableLastLanes ();
+		}
+		
     }
+
+	//used to avoid  spawning Level Objects on the same tile
+	public Vector3 GetUniqueEndPathPosition()
+	{
+		var rnd = UnityEngine.Random.Range (0, availableLastLanes.Count);
+		var pos = GetLanePosition (availableLastLanes[rnd], levelGenerator.PathLength);
+		availableLastLanes.RemoveAt (rnd);
+		return pos;
+	}
 
     public Vector3 GetLanePosition(int laneIndex, int forwardOffset)
     {

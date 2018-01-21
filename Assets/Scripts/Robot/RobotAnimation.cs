@@ -51,6 +51,7 @@ public class RobotAnimation : MonoBehaviour, IMessageReceiver
 		animator.SetBool ("IsDamaged", true);
 		yield return new WaitForSeconds (delay);
 		animator.SetBool ("IsDamaged", false);
+		isWalking = robMov.CurrentSpeed < runSpeed;
 	}
 
 }

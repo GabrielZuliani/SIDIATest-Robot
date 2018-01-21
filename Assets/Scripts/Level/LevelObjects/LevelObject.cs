@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelObject : MonoBehaviour 
 {
+	[SerializeField] private GameObject collisionEffect;
 	private Level level;
 
 	public void Init(Level level)
@@ -25,8 +26,13 @@ public class LevelObject : MonoBehaviour
 	private void OnTriggerEnter(Collider c)
 	{
 		if (c.gameObject.GetComponent<RobotCollision>()) 
-		{
+		{			
 			DestroyThis ();
+			if (collisionEffect != null)
+			{
+				var fx = Instantiate (collisionEffect, transform.position, collisionEffect.transform.rotation);
+				Destroy (fx, 2f);
+			}
 		}
 	}
 

@@ -45,11 +45,6 @@ public class Spawner : MonoBehaviour
 
 	protected virtual Vector3 GetSpawnPoint()
 	{
-		return level.GetLanePosition (GetRandomLane (), level.LevelLength);
-	}
-
-	protected int GetRandomLane()
-	{
-		return Random.Range (0, level.NumberOfLanes);
+		return level.GetUniqueEndPathPosition ();
 	}
 }
