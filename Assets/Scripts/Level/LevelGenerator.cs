@@ -6,8 +6,10 @@ public class LevelGenerator : MonoBehaviour
 	[SerializeField] private float laneSize = 1.5f;
 	[SerializeField] private GameObject wallPrefab;
 	[SerializeField] private GameObject floorPrefab;
+	[SerializeField] private GameObject portalPrefab;
 	[SerializeField] private int pathLength = 3;
 	[SerializeField] private int wallHeight = 3;
+	[SerializeField] private float portalPercent = 0.8f;
 
 	
 	public int NumberOfLanes
@@ -20,9 +22,14 @@ public class LevelGenerator : MonoBehaviour
 		get { return laneSize; }
 	}
 
-	public int PathLength
+	public int PathLength 
 	{
 		get { return pathLength; }
+	}
+
+	public float PortalDistance
+	{
+		get { return pathLength * portalPercent * laneSize; }
 	}
 	
 	public Transform Generate()
@@ -43,6 +50,9 @@ public class LevelGenerator : MonoBehaviour
 		rightWall.transform.localScale = new Vector3(WallWidth, laneSize * wallHeight, pathLength * laneSize);
 		rightWall.transform.position = transform.position + WallOffset(false);
 		rightWall.GetComponent<Renderer>().material.mainTextureScale = new Vector2(pathLength, wallHeight);
+
+		var tunnel = Instantiate (portalPrefab, transform);
+		tunnel.transform.position = transform.position + Vector3.forward * (PortalDistance - laneSize);
 
 		return parent;
 	}

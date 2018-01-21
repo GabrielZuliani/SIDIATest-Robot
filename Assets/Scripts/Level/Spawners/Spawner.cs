@@ -6,21 +6,31 @@ public class Spawner : MonoBehaviour
 {
 	[SerializeField] private ObjectPool pool;
 	[SerializeField] private float timeToSpawn;
+	[SerializeField] private float difficultyIncrease;
+	[SerializeField] private float minTimer = 0.2f;
+	[SerializeField] private float maxTimer = 10f;
 	protected Level level;
 	private float timer;
 
 	public void Init(Level level)
 	{
 		this.level = level;
+		timer = timeToSpawn;
 	}
 
 	protected void Update()
 	{
-		timer += Time.deltaTime;
-		if (timer > timeToSpawn) 
+		if (level.Speed > 0) 
 		{
-			Spawn ();
-			timer = 0;
+			timer += Time.deltaTime;
+			if (timer > timeToSpawn) 
+			{
+				Spawn ();
+				timeToSpawn -= difficultyIncrease;
+				if (timeToSpawn < minTimer) timeToSpawn = minTimer;
+				if (timeToSpawn > maxTimer) timeToSpawn = maxTimer;
+				timer = 0;
+			}
 		}
 	}
 

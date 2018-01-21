@@ -39,7 +39,7 @@ public class ObjectPool : MonoBehaviour
 
 	private Poolable GetNewObject()
 	{
-		var obj = Instantiate (poolablePrefab);
+		var obj = Instantiate (poolablePrefab, transform);
 		obj.OnDestroyed += AddToPool;
 		return obj;
 	}

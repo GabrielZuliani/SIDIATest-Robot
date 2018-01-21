@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(LevelGenerator))]
 public class Level : MonoBehaviour
@@ -9,6 +10,9 @@ public class Level : MonoBehaviour
     private Vector3 initialPosition;
 	// save robotMovement to have access to robot speed
 	private RobotMovement robotMov;
+	private Transform levelGeometry;
+
+	public event Action OnGameOver;
 
     public int NumberOfLanes
     {
@@ -24,16 +28,19 @@ public class Level : MonoBehaviour
 	{
 		get { return robotMov.CurrentSpeed; } 
 	}
+
+	public Vector3 EndPosition
+	{
+		get { return transform.position - Vector3.forward * levelGenerator.LaneSize; }
+	}
     
     private void Awake()
     {
         levelGenerator = GetComponent<LevelGenerator>();
-		var geometry = levelGenerator.Generate();
-		geometry.parent = transform;
-		Debug.Log (geometry.position);
-		geometry.position += Vector3.forward * levelGenerator.LaneSize * (levelGenerator.PathLength/2 - 7) ;
-		Debug.Log (geometry.position);
-        initialPosition = transform.position;  
+		levelGeometry = levelGenerator.Generate();
+		levelGeometry.parent = transform;
+		levelGeometry.position -= Vector3.forward * levelGenerator.LaneSize;
+		initialPosition = levelGeometry.position;  
   
 		var robot = RobotFactory.GetRobot (RobotType.Robot1);
 		robotMov = robot.GetComponent<RobotMovement> ();
@@ -44,13 +51,17 @@ public class Level : MonoBehaviour
 		foreach (var s in spawners)
 			s.Init (this);
 
-    }
+		var hudController = GetComponentInChildren<HUDController> ();
+		if (hudController != null)
+			hudController.Init (robot);
 
+    }
+		
     private void Update()
     {
-        transform.position -= Vector3.forward * robotMov.CurrentSpeed * Time.deltaTime;
-        if (Vector3.Distance(transform.position, initialPosition) > levelGenerator.LaneSize * levelGenerator.PathLength/3)
-			transform.position += Vector3.forward * levelGenerator.PathLength/3 * levelGenerator.LaneSize;
+		levelGeometry.position -= Vector3.forward * robotMov.CurrentSpeed * Time.deltaTime;
+		if (Vector3.Distance(levelGeometry.position, initialPosition) > levelGenerator.LaneSize * levelGenerator.PathLength - levelGenerator.PortalDistance)
+			levelGeometry.position = initialPosition;
     }
 
     public Vector3 GetLanePosition(int laneIndex, int forwardOffset)

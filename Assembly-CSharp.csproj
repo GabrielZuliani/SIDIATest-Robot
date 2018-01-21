@@ -51,25 +51,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Level\HUDController.cs" />
      <Compile Include="Assets\Scripts\Level\Level.cs" />
      <Compile Include="Assets\Scripts\Level\LevelGenerator.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelObjects\Battery.cs" />
      <Compile Include="Assets\Scripts\Level\LevelObjects\LevelObject.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelObjects\Obstacle.cs" />
      <Compile Include="Assets\Scripts\Level\ObjectPool\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\Level\ObjectPool\Poolable.cs" />
      <Compile Include="Assets\Scripts\Level\Spawners\PowerUpSpawner.cs" />
      <Compile Include="Assets\Scripts\Level\Spawners\Spawner.cs" />
+     <Compile Include="Assets\Scripts\Robot\BatteryManager.cs" />
      <Compile Include="Assets\Scripts\Robot\Input\AndroidInput.cs" />
      <Compile Include="Assets\Scripts\Robot\Input\BaseInputDetector.cs" />
      <Compile Include="Assets\Scripts\Robot\Input\EditorInput.cs" />
+     <Compile Include="Assets\Scripts\Robot\Messenger\IMessageReceiver.cs" />
+     <Compile Include="Assets\Scripts\Robot\Messenger\Messages\BaseMessage.cs" />
+     <Compile Include="Assets\Scripts\Robot\Messenger\Messages\BatteryCollectedMessage.cs" />
+     <Compile Include="Assets\Scripts\Robot\Messenger\Messages\BatteryDepletedMessage.cs" />
+     <Compile Include="Assets\Scripts\Robot\Messenger\Messages\ObstacleHitMessage.cs" />
+     <Compile Include="Assets\Scripts\Robot\Messenger\RobotMessenger.cs" />
+     <Compile Include="Assets\Scripts\Robot\RobotAnimation.cs" />
+     <Compile Include="Assets\Scripts\Robot\RobotCollision.cs" />
      <Compile Include="Assets\Scripts\Robot\RobotFactory.cs" />
      <Compile Include="Assets\Scripts\Robot\RobotMovement.cs" />
-     <None Include="Assets\Robot 3D Models\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
-     <None Include="Assets\Robot 3D Models\Readme.txt" />
-     <None Include="Assets\Robot 3D Models\Robo1\Animations\Robo1 animations list.txt" />
-     <None Include="Assets\Robot 3D Models\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
-     <None Include="Assets\Robot 3D Models\Robo2\Animations\Robo2 animations list.txt" />
-     <None Include="Assets\The_Texture_Lab\TL_Prototype_Textures_Pack\Documentation.txt" />
-     <None Include="Assets\Robot 3D Models\Robo3\Animations\Robo3 animations list.txt" />
+     <Compile Include="Assets\Scripts\Robot\ScoreManager.cs" />
+     <Compile Include="Assets\Scripts\RotateAround.cs" />
+     <None Include="Assets\DownloadedAssets\Robot 3D Models\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
+     <None Include="Assets\DownloadedAssets\Robot 3D Models\Readme.txt" />
+     <None Include="Assets\DownloadedAssets\Robot 3D Models\Robo1\Animations\Robo1 animations list.txt" />
+     <None Include="Assets\DownloadedAssets\Robot 3D Models\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
+     <None Include="Assets\DownloadedAssets\Robot 3D Models\Robo2\Animations\Robo2 animations list.txt" />
+     <None Include="Assets\DownloadedAssets\The_Texture_Lab\TL_Prototype_Textures_Pack\Documentation.txt" />
+     <None Include="Assets\DownloadedAssets\Robot 3D Models\Robo3\Animations\Robo3 animations list.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
